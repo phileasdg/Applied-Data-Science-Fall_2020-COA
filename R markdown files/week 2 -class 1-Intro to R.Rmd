@@ -2,7 +2,9 @@
 title: "DataScience1-class_3"
 author: "Phileas Dazeley Gaist"
 date: "9/21/2021"
-output: rmarkdown::github_document
+output: 
+  html_document:
+    keep_md: true
 ---
 # # ---------------------------------------------------------------
 # ┏━━━┓╋╋┏┓┏┓╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━┓╋┏┓┏┓╋╋╋╋╋┏━━━┓┏┓┏┓╋╋╋╋╋╋┏┓

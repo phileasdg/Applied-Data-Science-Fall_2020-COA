@@ -96,18 +96,14 @@ cereals %>%
 **5.** Which three breakfast cereals have the lowest calorie count per serving?
 
 **Answer:** The three breakfast cereals which have the lowest calorie count per serving are
+
 - All-Bran with Extra Fiber,
 - Puffed Rice,
 - Puffed Wheat,
+
 all three of which are tied at 50 calories per serving.
 
 ```{r}
-# The three breakfast cereals which have the lowest calorie count per serving are
-# - All-Bran with Extra Fiber,
-# - Puffed Rice,
-# - Puffed Wheat,
-# all three of which are tied at 50 calories per serving.
-
 cereals %>% 
   arrange(calories) %>% 
   select(name, calories) %>% 

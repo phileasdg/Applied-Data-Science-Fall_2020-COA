@@ -8,6 +8,20 @@ output:
 ---
 
 
+```r
+# # ---------------------------------------------------------------
+# ┏━━━┓╋╋┏┓┏┓╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━┓╋┏┓┏┓╋╋╋╋╋┏━━━┓┏┓┏┓╋╋╋╋╋╋┏┓
+# ┃┏━┓┃╋╋┃┃┃┃╋╋╋╋╋╋╋╋╋╋╋╋╋╋┃┏┛┏┛┗┫┃╋╋╋╋╋┃┏━┓┣┛┗┫┃╋╋╋╋╋┏┛┗┓
+# ┃┃╋┗╋━━┫┃┃┃┏━━┳━━┳━━┓┏━━┳┛┗┓┗┓┏┫┗━┳━━┓┃┃╋┃┣┓┏┫┃┏━━┳━╋┓┏╋┳━━┓
+# ┃┃╋┏┫┏┓┃┃┃┃┃┃━┫┏┓┃┃━┫┃┏┓┣┓┏┛╋┃┃┃┏┓┃┃━┫┃┗━┛┃┃┃┃┃┃┏┓┃┏┓┫┃┣┫┏━┛
+# ┃┗━┛┃┗┛┃┗┫┗┫┃━┫┗┛┃┃━┫┃┗┛┃┃┃╋╋┃┗┫┃┃┃┃━┫┃┏━┓┃┃┗┫┗┫┏┓┃┃┃┃┗┫┃┗━┓
+# ┗━━━┻━━┻━┻━┻━━┻━┓┣━━┛┗━━┛┗┛╋╋┗━┻┛┗┻━━┛┗┛╋┗┛┗━┻━┻┛┗┻┛┗┻━┻┻━━┛
+# ╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━┛┃
+# ╋╋╋╋╋╋╋╋╋╋╋╋╋╋┗━━┛       Applied Data Science I - Week 2, Class 2
+# # ---------------------------------------------------------------
+```
+
+
 
 
 ```r
@@ -95,7 +109,7 @@ sum(is.na(iris)) # returns the number of NA elements in a data set
 plot(iris) # plots all columns of the data set against each other (good for visualising relationships)
 ```
 
-![](week-2---class-2---Intro-to-R_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![](week-2---class-2---Intro-to-R_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ```r
 # cool, okay, we'll leave iris alone for now and come back to it! 
@@ -115,7 +129,7 @@ str(uspop)
 plot(uspop)
 ```
 
-![](week-2---class-2---Intro-to-R_files/figure-html/unnamed-chunk-1-2.png)<!-- -->
+![](week-2---class-2---Intro-to-R_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
 
 
 ```r
@@ -35806,7 +35820,7 @@ us_emissions_cleaned <- us_emissions %>%
 plot(us_emissions_cleaned)
 ```
 
-![](week-2---class-2---Intro-to-R_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](week-2---class-2---Intro-to-R_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 
 

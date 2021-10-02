@@ -283,6 +283,26 @@ cereals %>%
 ## 1       3.90
 ```
 
+*or, alternatively*
+
+
+```r
+cereals %>% 
+  group_by(type) %>% 
+  summarise(type_counts = n()) %>% 
+  mutate(percentages = 100 * type_counts/sum(type_counts)) %>% 
+  filter(type == "H") %>% 
+  select(type, percentages)
+```
+
+```
+## # A tibble: 1 x 2
+##   type  percentages
+##   <chr>       <dbl>
+## 1 H            3.90
+```
+
+
 **11.** Which shelf has the highest mean (i.e., average) percentage of daily vitamins per serving?
 
 **Answer:** The third shelf has the highest mean percentage of daily vitamins per serving. The mean for the third shelf stands at approximately 44.7 percent of the FDA daily intake recommendation.

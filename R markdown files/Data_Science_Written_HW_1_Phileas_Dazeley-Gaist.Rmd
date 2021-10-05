@@ -141,7 +141,15 @@ cereals %>%
 
 ```{r}
 cereals %>% 
-  filter_all(any_vars(. < 0)) %>% 
+  filter_all(any_vars(. < 0)) %>% # that dot is a self-referential pointer.
+  nrow()
+```
+
+*or, alternatively*
+
+```{r}
+cereals %>% 
+  filter(if_any(where(is.numeric),~.x < 0)) %>% 
   nrow()
 ```
 
@@ -180,6 +188,14 @@ cereals %>%
   select(type, percentages)
 ```
 
+*or, alternatively*
+
+```{r}
+cereals %>% 
+  group_by(type) %>% 
+  summarise(pct = 100 * n() / nrow(cereals)) %>% 
+  filter(type == "H")
+```
 
 **11.** Which shelf has the highest mean (i.e., average) percentage of daily vitamins per serving?
 
@@ -214,7 +230,7 @@ cereals %>%
 
 ```{r}
 cereals %>% 
-  summarise(range = max(rating)-min(rating))
+  summarise(range = max(rating) - min(rating))
 ```
 
 **14.** Which cereal brand has the highest number of grams of fat per calorie?
@@ -259,3 +275,13 @@ cereals %>%
   arrange(desc(chr_count)) %>% 
   filter(row_number() == 1)
 ```
+
+# Additional notes:
+
+```{r}
+# you can use head(n) to return the first n rows of a tibble
+cereals %>% head(3)
+# you can use tail(n) to return the first n rows of a tibble
+cereals %>% tail(3)
+```
+

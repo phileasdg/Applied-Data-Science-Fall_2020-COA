@@ -1,5 +1,5 @@
 ---
-title: "DataScience1-class_3"
+title: "week 2 - class 1 - Intro to R"
 author: "Phileas Dazeley Gaist"
 date: "9/21/2021"
 output: 

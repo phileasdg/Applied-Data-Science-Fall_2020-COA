@@ -1,0 +1,426 @@
+---
+title: "Data Science 1: Final project"
+author: "Phileas Dazeley Gaist"
+date: "10/23/2021"
+output:
+  html_document:
+    df_print: paged
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(PerformanceAnalytics)
+library(Hmisc)
+library(ggpubr)
+library(vegan)
+library(robustHD)
+base_dir<-"final datasets/"
+```
+# The data:
+
+**French regional sustainable development indicators (INSEE, accessed 11/2021):**
+
+1. Net wage gap between men and women (2017), described by the formula: (f_net_hourly_salary - m_net_hourly_salary)/m net hourly salary.
+
+```{r}
+# By age group: 
+pct_wage_gap_wm_age <- read.csv(paste0(base_dir, "taux ecarts salaire f-h age 2017 FR reg.csv"), sep = ",")
+# By socioprofessional group:
+pct_wage_gap_wm_soc <- read.csv(paste0(base_dir, "taux ecarts salaire f-h soc 2017 FR reg.csv"), sep = ",")
+# Total:
+pct_wage_gap_wm_tot <- read.csv(paste0(base_dir, "taux ecarts salaire f-h total 2017 FR reg.csv"), sep = ",")
+```
+
+2.1) Total rate of monetary poverty of individuals (2017)
+
+```{r}
+# Total:
+pct.pvt.tot <- read.csv(paste0(base_dir, "taux pvt total 2017 FR reg.csv"), sep = ",")
+```
+
+2.2) Intensity of poverty (2017)
+
+```{r}
+intens.pvt <- read.csv(paste0(base_dir, "taux intensite pvt 2017 FR reg.csv"), sep = ",")
+```
+
+**French regional indicators on inequalities among women and men (INSEE, accessed 11/2021)**
+
+```{r}
+# differences in proportions of employment of women and men (w-m) in positions of authority (%)
+life.cond.wm <- read.csv(paste0(base_dir, "taux ecarts cond.vie f-h comparateurs FR reg.csv"), sep=",")
+# average age at first child difference b/w women and men (%)
+health.wm <- read.csv(paste0(base_dir, "taux ecarts sante f-h comparateurs FR reg.csv"), sep=",")
+```
+
+## Source data frames:
+
+```{r}
+# pct_wage_gap_wm_age; 
+# pct_wage_gap_wm_soc
+# pct_wage_gap_wm_tot; 
+# pct.pvt.tot; 
+# intens.pvt; 
+# life.cond.wm; 
+# health.wm
+```
+
+# Analysis:
+
+**Research question 1: [Is there a difference in the recorded wage gap between women and men in different age groups in 2017 between metropolitan France and the DOM?]**
+
+- Two way ANOVA using IVs = [regions, age group or socioprofessional group], DV = [wage gap %]
+- Post Hoc test on the results
+- Result reporting and analysis.
+
+### Data preparation:
+
+Base data frame: `pct_wage_gap_wm_age`
+
+```{r}
+# translate the column titles to English
+pct_wage_gap_wm_age <- pct_wage_gap_wm_age %>% 
+  rename(Region = libgeo,
+         Age_group = "groupe.age",
+         Wage_gap_pct = "taux.ecarts.salaire.f.h")
+
+# check for gaps in data:
+# pct_wage_gap_wm_age %>%
+#   filter(is.na(Wage_gap_pct))
+
+pct_wage_gap_wm_age <- pct_wage_gap_wm_age %>%
+  # Filter Mayotte out of the data set:
+  filter(Region != "Mayotte") %>% 
+  # separate the data into two groups: metropolitan and DOM
+  mutate(Geographic_region_group = ifelse(Region == "Guadeloupe" | Region == "Martinique" | Region == "Guyane" | Region == "La Réunion", "DOM", "Metropolitan France")) %>% 
+  # translate the Wage_gap_pct values to English
+  mutate(Age_group = recode(Age_group, "25 ans et moins"="25 and lower","26 à 50 ans"="26 to 50","plus de 50 ans"="more than 50"))
+```
+
+### Visualisation and testing:
+
+```{r}
+# visualise data frame
+pct_wage_gap_wm_age
+
+# plot distribution of wage gap percentages between women and men in France
+hist_1 <- pct_wage_gap_wm_age %>% 
+  ggplot(aes(x=Wage_gap_pct)) +
+  geom_histogram(binwidth = 1) + 
+  labs(title="Distribution of net wage gaps \nbetween women and men in France by age", x="Wage gap w-m (%)", y="Frequency", caption="Source: INSEE")
+
+# plot box plot of data frame: 
+boxplot_1 <- pct_wage_gap_wm_age %>% 
+  ggplot(aes(x=Age_group, y=Wage_gap_pct, colour=Geographic_region_group)) +
+  geom_point(position = position_jitterdodge()) +
+  geom_boxplot(fill=NA) + 
+  labs(title="Wage gaps between women and men \nby age groups and geographic region", x="Age group", y="Wage gap w-m (%)", colour="Geographic region", caption = "Source: INSEE")
+
+# Null hypotheses:
+# H0_1: there is no main effect of factor A
+# H0_2: there is no main effect of factor B
+# H0_3: there is no interaction between factors A and B
+
+# visualise interaction plot of variables
+
+interaction_plot_1 <- pct_wage_gap_wm_age %>% 
+  group_by(Age_group, Geographic_region_group) %>% 
+  summarise(means = mean(Wage_gap_pct)) %>% 
+  ggplot(aes(Geographic_region_group, means)) +
+  geom_line(size = 1.2, aes(group = Age_group, color = Age_group)) +
+  geom_point(size = 2.6, aes(color = Age_group), shape = 15) +
+  labs(title="Interaction plot of Age groups \nand geographic region groups", x="Geographic region", y="Mean wage gap w-m (%)" , colour="Age", caption="Source: INSEE")
+
+# reveal plots
+hist_1
+boxplot_1
+interaction_plot_1
+
+# conduct ANOVA
+aov1 <- aov(Wage_gap_pct~Region+Age_group+Region*Age_group, data=pct_wage_gap_wm_age)
+summary(aov1)
+
+# report results (see below)
+```
+
+### Results:
+>A two-way ANOVA (table below) revealed a significant effect of geographic region (P < 0.01) and age group (P < 0.01) on wage gap % between women and men, but with a significant interaction between geographic region and age group (P < 0.01). Observations in age group age>50 in Metropolitan France yielded higher wage gap results than expected when compared to the values found in other age group observations.
+
+**Research question 2: [Is there a difference in the recorded wage gap between women and men in different socioprofessional groups in 2017 between metropolitan France and the DOM?]**
+
+- Two way ANOVA using IVs = [regions, age group/socioprofessional group], DV = [wage gap %]
+- Post Hoc test on the results
+- Result reporting and analysis.
+
+Socioprofessional group nomenclature (INSEE, 2013): https://www.insee.fr/fr/metadonnees/pcs2003/categorieSocioprofessionnelleAgregee/1?champRecherche=true
+
+### Data preparation:
+
+Base data frame: `taux.ecarts.salaires.fh.soc`
+
+```{r}
+# translate the column titles to English
+pct_wage_gap_wm_soc <- pct_wage_gap_wm_soc %>% 
+  rename(Region = libgeo,
+         Socioprofessional_group = "groupe.socioprofessionel",
+         Wage_gap_pct = "taux.ecarts.salaire.f.h")
+
+# check for gaps in data:
+# pct_wage_gap_wm_soc %>%
+#   filter(is.na(Wage_gap_pct))
+
+pct_wage_gap_wm_soc <- pct_wage_gap_wm_soc %>%
+  # Filter Mayotte out of the data set:
+  filter(Region != "Mayotte") %>% 
+  # separate the data into two groups: metropolitan and DOM
+  mutate(Geographic_region_group = ifelse(Region == "Guadeloupe" | Region == "Martinique" | Region == "Guyane" | Region == "La Réunion", "DOM", "Metropolitan France")) %>% 
+  # translate the Wage_gap_pct values to English
+  mutate(Socioprofessional_group = recode(Socioprofessional_group, "cadres"="executives","professions intermédiaires"="intermediary positions","employés"="employees", "ouvriers"="workers"))
+
+```
+
+### Visualisation and testing:
+
+```{r}
+# visualise data frame
+pct_wage_gap_wm_soc
+
+# visualise distribution of wage gap percentages between women and men in France
+hist_2 <- pct_wage_gap_wm_soc %>% 
+  ggplot(aes(x=Wage_gap_pct)) +
+  geom_histogram(binwidth = 1) + 
+  labs(title="Distribution of net wage gap \nbetween women and men in France by socioprofessional designation", x="Wage gap w-m (%)", y="Frequency", caption="Source: INSEE")
+
+# sort data frame to display ordered x-axis on boxplot
+pct_wage_gap_wm_soc$Socioprofessional_group <- factor(pct_wage_gap_wm_soc$Socioprofessional_group, levels=c("executives" , "intermediary positions", "employees", "workers"))
+pct_wage_gap_wm_soc$Geographic_region_group <- factor(pct_wage_gap_wm_soc$Geographic_region_group, levels=c("Metropolitan France", "DOM"))
+
+# visualise box plot of data frame: 
+boxplot_2 <- pct_wage_gap_wm_soc %>% 
+  ggplot(aes(x=Socioprofessional_group, y=Wage_gap_pct, colour=Geographic_region_group)) +
+  geom_point(position = position_jitterdodge()) +
+  geom_boxplot(fill=NA) + 
+  labs(title="Wage gap between women and men \nby socioprofessional designation and geographic region", x="Socioprofessional designation", y="Wage gap w-m (%)", colour="Geographic region", caption = "Source: INSEE")
+
+# add boxplot for executives because it is too small to visualise in the shared boxplot
+boxplot_3 <- pct_wage_gap_wm_soc %>% 
+  filter(Socioprofessional_group == "executives") %>% 
+  ggplot(aes(x=Socioprofessional_group, y=Wage_gap_pct, colour=Geographic_region_group)) +
+  geom_point(position = position_jitterdodge()) +
+  geom_boxplot(fill=NA) +
+  labs(title="Wage gap between women and men who are \nexecutives by geographic region", x="Socioprofessional designation", y="Wage gap w-m (%)", colour="Geographic region", caption="Source: INSEE")
+
+
+# Null hypotheses:
+# H0_1: there is no main effect of factor A
+# H0_2: there is no main effect of factor B
+# H0_3: there is no interaction between factors A and B
+
+# visualise interaction plot of variables
+
+interaction_plot_2 <- pct_wage_gap_wm_soc %>% 
+  group_by(Socioprofessional_group, Geographic_region_group) %>% 
+  summarise(means = mean(Wage_gap_pct)) %>% 
+  ggplot(aes(Geographic_region_group, means)) +
+  geom_line(size = 1.2, aes(group = Socioprofessional_group, color = Socioprofessional_group)) +
+  geom_point(size = 2.6, aes(color = Socioprofessional_group), shape = 15) +
+  labs(title="Interaction plot of Socioprofessional groups \nand geographic region groups", x="Geographic region", y="Mean wage gap w-m (%)" , colour="Age", caption="Source: INSEE")
+
+# reveal plots
+hist_2
+boxplot_2
+interaction_plot_2
+
+# conduct ANOVA
+aov2 <- aov(Wage_gap_pct~Geographic_region_group+Socioprofessional_group+Geographic_region_group*Socioprofessional_group, data=pct_wage_gap_wm_soc)
+summary(aov2)
+
+# report results (see below)
+```
+
+### Results:
+>A two-way ANOVA (table below) revealed a significant effect of socioprofessional group (P < 0.01) but not geographic region (P = 0.28) on wage gap % between women and men, but with a significant interaction between geographic region and socioprofessional group (P < 0.01). In Metropolitan France, observations of workers showed yielded lower wage gap values when compared to DOM observations, for employees and intermediary positions the effect was reversed (interaction plot on slide 8)."
+
+## Test 3:
+- NMDS using [regions] as different observations and rates (%) of total [monetary poverty, intensity of poverty, net wage gap (absolute values), total employemt rate gap in official municipality poistions (%), and number of years gap between average ages at fist chile for women and men (y)] as vectors; (bubles would be metropolitan France and the DOM).
+
+good NMDS resource: https://www.youtube.com/watch?v=Kl49qI3XJKY
+
+```{r}
+# data sets to use (variables cols ~ region rows):
+# - total wage gap % ((w-m*)-1) <- important
+# - total monetary poverty %
+# - total intensity of poverty %
+# - total employment rate gap in official municipal positions % ((w-m)*-1)
+# - n year gap between average ages at first child for women and men (y) ((w-m)*-1)  
+
+# multiplications by -1 made so that higher values are equated to larger imbalances disfavouring women.
+
+# define starting data frame for nmds: columns of variables and rows of samples
+nmdsData <- data.frame(Region = pct_wage_gap_wm_tot$libgeo,
+                       wage.gap = pct_wage_gap_wm_tot$taux.ecarts.salaire.f.h*-1,
+                       monetary.poverty = pct.pvt.tot$total,
+                       poverty.intensity = intens.pvt$total.2017,
+                       ofc.employment.gap = life.cond.wm$conseils.municipaux.2021*-1,
+                       age.first.child.y.gap = health.wm$age.moy.parentalité.années.2019*-1) %>% 
+  filter(Region != "Mayotte") %>% 
+  mutate(Geographic_region_group = ifelse(Region == "Guadeloupe" | Region == "Martinique" | Region == "Guyane" | Region == "La Réunion", "DOM", "Metropolitan France"))
+
+nmdsData
+```
+
+```{r}
+
+# convert data frame to matrix (+ maybe assign region names to rows)
+nmdsMatrix <- as.matrix(standardize(nmdsData[, 2:6]))
+rownames(nmdsMatrix) <- nmdsData$Geographic_region_group
+
+# shift minimums so that all values are positive (see http://strata.uga.edu/8370/lecturenotes/multidimensionalScaling.html)
+minShift <- function(x) {x + abs(min(x))}
+nmdsMatrix <- apply(nmdsMatrix, 2, minShift)
+```
+
+```{r}
+# run MDS (also calculates euclidean distance matrix)
+my.nmds <- metaMDS(nmdsMatrix, distance='euclidean', k=2, trymax=50)
+
+# GOF and Shepards diagram
+goodness(my.nmds) # Produces a results of test statistics for goodness of fit for each point
+stressplot(my.nmds) # Produces a Shepards diagram
+
+# results
+my.nmds
+
+# Plotting points in ordination space
+plot(my.nmds, "sites", xlim=c(-6,2.5))   # Produces distance 
+orditorp(my.nmds, "sites")   # Gives points labels
+
+# Variable scores plot
+# https://www.burns-stat.com/plot-ranges-of-data-in-r/
+# https://rpubs.com/CPEL/nmds
+
+variableScores <- my.nmds$species
+sampleScores <- my.nmds$points
+
+DOM3 <- nmdsData$Geographic_region_group < 2
+metro3 <- nmdsData$Geographic_region_group > 1
+
+plot(sampleScores[, 1], sampleScores[, 2], xlab='nmds 1', ylab='nmds 2', type='n', asp=1, las=1, xlim=c(-6,2.5))
+points(sampleScores[DOM3, 1], sampleScores[DOM3, 2], pch=16, cex=0.7, col='seagreen')
+points(sampleScores[metro3, 1], sampleScores[metro3, 2], pch=16, cex=0.7, col='royalblue')
+
+text(-4, -1, 'DOM', col='seagreen')
+text(-.5, -1, 'Metropolitan France', col='royalblue')
+
+arrows(0, 0, variableScores[, 1], variableScores[, 2], length=0.1, angle=20)
+
+textNudge <- 1.2
+text(variableScores[, 1]*textNudge, variableScores[, 2]*textNudge, rownames(variableScores), cex=0.7)
+
+legend("topleft",
+       col = c("seagreen", "royalblue"),
+       lty = 1,
+       legend = c("DOM", "Metropolitan France"),
+       cex=0.7)
+
+# Hulls and centroids plot
+colvec <- c("seagreen", "royalblue")   # Identifies colors for group assignments
+pchvec <- c(22, 22)   # Identifies character symbols for group assignments
+
+plot(my.nmds)
+with(nmdsData,
+     points(my.nmds,
+            display = "sites",
+            col = "black",
+            pch = pchvec[Geographic_region_group],
+            bg = colvec[Geographic_region_group]))
+
+#Create convex hulls that highlight point clusters based on grouping dataframe
+ordihull(
+  my.nmds,
+  nmdsData$Geographic_region_group,
+  display = "sites",
+  draw = c("polygon"),
+  col = NULL,
+  border = c("gray0", "gray0", "gray48", "gray48"),
+  lty = c(1, 2, 1, 2),
+  lwd = 2.5
+)
+
+# Calculating and plotting centroids of NMDS Result
+scrs <-
+  scores(my.nmds, display = "sites", "species")
+cent <-
+  aggregate(scrs ~ Geographic_region_group, data = nmdsData, FUN = "mean")
+names(cent) [-1] <- colnames(scrs)
+points(cent [,-1],
+       pch = c(8, 8),
+       col = c("seagreen", "royalblue"),
+       bg = c("black"),
+       lwd = 3.0,
+       cex = 2.0 # Plots centroids as points on ordination
+)
+```
+```{r}
+# combined data plot
+
+colvec <- c("seagreen", "royalblue")   # Identifies colors for group assignments
+pchvec <- c(22, 22)   # Identifies character symbols for group assignments
+
+plot(my.nmds, xlim=c(-6,2.5))
+with(nmdsData,
+     points(my.nmds,
+            display = "sites",
+            col = "black",
+            pch = pchvec[Geographic_region_group],
+            bg = colvec[Geographic_region_group]))
+
+#Create convex hulls that highlight point clusters based on grouping dataframe
+ordihull(
+  my.nmds,
+  nmdsData$Geographic_region_group,
+  display = "sites",
+  draw = c("polygon"),
+  col = NULL,
+  border = c("gray0", "gray0", "gray48", "gray48"),
+  lty = c(1, 2, 1, 2),
+  lwd = 2.5
+)
+
+# Calculating and plotting centroids of NMDS Result
+scrs <-
+  scores(my.nmds, display = "sites", "species")
+cent <-
+  aggregate(scrs ~ Geographic_region_group, data = nmdsData, FUN = "mean")
+names(cent) [-1] <- colnames(scrs)
+points(cent [,-1],
+       pch = c(8, 8),
+       col = c("seagreen", "royalblue"),
+       bg = c("black"),
+       lwd = 3.0,
+       cex = 2.0 # Plots centroids as points on ordination
+)
+
+# variable scores
+text(-3.3, -1, 'DOM', col='seagreen')
+text(-.35, -1, 'Metropolitan France', col='royalblue')
+
+arrows(0, 0, variableScores[, 1], variableScores[, 2], length=0.1, angle=20)
+
+textNudge <- 1.2
+text(variableScores[, 1]*textNudge, variableScores[, 2]*textNudge, rownames(variableScores), cex=0.7)
+
+# legend
+legend("topleft",
+       col = c("seagreen", "royalblue"),
+       lty = 1,
+       legend = c("DOM", "Metropolitan France"),
+       cex=0.7)
+```
+```{r}
+# library citations:
+citation("robustHD")
+citation("vegan")
+```

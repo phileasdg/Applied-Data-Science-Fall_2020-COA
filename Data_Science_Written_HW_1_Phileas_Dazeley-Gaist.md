@@ -235,7 +235,20 @@ cereals %>%
 
 ```r
 cereals %>% 
-  filter_all(any_vars(. < 0)) %>% 
+  filter_all(any_vars(. < 0)) %>% # that dot is a self-referential pointer.
+  nrow()
+```
+
+```
+## [1] 3
+```
+
+*or, alternatively*
+
+
+```r
+cereals %>% 
+  filter(if_any(where(is.numeric),~.x < 0)) %>% 
   nrow()
 ```
 
@@ -302,6 +315,22 @@ cereals %>%
 ## 1 H            3.90
 ```
 
+*or, alternatively*
+
+
+```r
+cereals %>% 
+  group_by(type) %>% 
+  summarise(pct = 100 * n() / nrow(cereals)) %>% 
+  filter(type == "H")
+```
+
+```
+## # A tibble: 1 x 2
+##   type    pct
+##   <chr> <dbl>
+## 1 H      3.90
+```
 
 **11.** Which shelf has the highest mean (i.e., average) percentage of daily vitamins per serving?
 
@@ -353,7 +382,7 @@ cereals %>%
 
 ```r
 cereals %>% 
-  summarise(range = max(rating)-min(rating))
+  summarise(range = max(rating) - min(rating))
 ```
 
 ```
@@ -435,3 +464,39 @@ cereals %>%
 ##   <chr>                                      <int>
 ## 1 Fruit & Fibre Dates; Walnuts; and Oats        38
 ```
+
+# Additional notes:
+
+
+```r
+# you can use head(n) to return the first n rows of a tibble
+cereals %>% head(3)
+```
+
+```
+## # A tibble: 3 x 16
+##   name       mfr   type  calories protein   fat sodium fiber carbo sugars potass
+##   <chr>      <chr> <chr>    <dbl>   <dbl> <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
+## 1 100% Bran  N     C           70       4     1    130    10     5      6    280
+## 2 100% Natu~ Q     C          120       3     5     15     2     8      8    135
+## 3 All-Bran   K     C           70       4     1    260     9     7      5    320
+## # ... with 5 more variables: vitamins <dbl>, shelf <dbl>, weight <dbl>,
+## #   cups <dbl>, rating <dbl>
+```
+
+```r
+# you can use tail(n) to return the first n rows of a tibble
+cereals %>% tail(3)
+```
+
+```
+## # A tibble: 3 x 16
+##   name       mfr   type  calories protein   fat sodium fiber carbo sugars potass
+##   <chr>      <chr> <chr>    <dbl>   <dbl> <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
+## 1 Wheat Chex R     C          100       3     1    230     3    17      3    115
+## 2 Wheaties   G     C          100       3     1    200     3    17      3    110
+## 3 Wheaties ~ G     C          110       2     1    200     1    16      8     60
+## # ... with 5 more variables: vitamins <dbl>, shelf <dbl>, weight <dbl>,
+## #   cups <dbl>, rating <dbl>
+```
+

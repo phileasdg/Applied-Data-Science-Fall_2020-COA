@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ede0329-cf51-4989-a035-779d243e6a0d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Final project.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/rGraphicsSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/rMarkdownGraphicsSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/rSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Data_Science_Written_HW_1_Phileas_Dazeley-Gaist.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Data_Science_Written_HW_1_Phileas_Dazeley-Gaist.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/Data_Science_Written_HW_1_Phileas_Dazeley-Gaist.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/../R markdown files/Data_Science_Written_HW_1_Phileas_Dazeley-Gaist.Rmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-4-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-5-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-5-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-5-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-5-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-6-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-6-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-6-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-6-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-6-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../R markdown files/week-5---class-1---Statistics!---Correlations-and-simple-linear-regression_files/figure-html/unnamed-chunk-6-6.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="R Script" />
+        <option value="RMarkdown.notebook" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="20h9k1HFogcM79X25DpbgXcxRpP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ede0329-cf51-4989-a035-779d243e6a0d" name="Changes" comment="" />
+      <created>1636486092202</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1636486092202</updated>
+      <workItem from="1636486093584" duration="3352000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

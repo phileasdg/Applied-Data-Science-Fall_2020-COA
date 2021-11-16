@@ -1,8 +1,11 @@
 ---
-title: "uygsfgdkh"
+title: "week 7 - class 1 - Data Visualisation Basics"
 author: "Phileas Dazeley Gaist"
 date: "10/26/2021"
-output: html_document
+output:
+  html_document:
+    df_print: paged
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}

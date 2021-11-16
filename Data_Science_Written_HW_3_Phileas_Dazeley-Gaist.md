@@ -14,6 +14,8 @@ output:
 
 ##Details
 
+**Collaboratively worked on with Adel Misherghi** 
+
 - Due Date:
   * 2021-10-29 (this Friday!) prior to the start of class (i.e., needs to be submitted before 1PM EST).
 - Format:
@@ -94,6 +96,7 @@ Answer these as thoroughly as you can and please provide the code that you’ve 
 The visualisation is an array of counts of candies all candies in the data set which are or are not of a certain type. (IV = column variable candy attribute, DV = count).
 
 The following visualisation shows that our data set contains:
+
 - 21 candies that are bars, and 64 that are not
 - 14 candies that are caramel, and 71 that are not
 - 37 candies that are chocolate, and 48 that are not

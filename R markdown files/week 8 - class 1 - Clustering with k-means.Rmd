@@ -2,7 +2,10 @@
 title: "week 8 - class 1 - Clustering with k-means"
 author: "Phileas Dazeley Gaist"
 date: "11/2/2021"
-output: html_document
+output:
+  html_document:
+    df_print: paged
+    keep_md: true
 ---
 
 ```{r}

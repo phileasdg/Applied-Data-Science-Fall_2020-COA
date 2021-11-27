@@ -56,26 +56,26 @@ hist(storms$wind)
 
 mean(storms$wind)
 # This is the average windspeed across the entire dataset (i.e. - across all measures!)
-# As you know, mean also works with pipes and summarize()! 
+# As you know, mean also works with pipes and summarise()! 
 
-# Let's use %>% and summarize to look at the average windspeed by status for storms in 1986 
+# Let's use %>% and summarise to look at the average windspeed by status for storms in 1986 
 storms %>% 
   filter(year == 1986) %>%
   group_by(status) %>% 
-  summarize(avg_wind_speed = mean(wind)) %>% 
+  summarise(avg_wind_speed = mean(wind)) %>% 
   arrange(desc(avg_wind_speed))
 
 # Let's maybe see if hurricanes are getting "stronger" and group by year with the mean 
 storms %>%
   filter(status == 'hurricane') %>% 
   group_by(year) %>% 
-  summarize(avg_wind_speed = mean(wind)) %>%
+  summarise(avg_wind_speed = mean(wind)) %>%
   arrange(year)
 
 storms %>%
   filter(status == 'hurricane') %>% 
   group_by(year) %>% 
-  summarize(avg_wind_speed = mean(wind)) %>%
+  summarise(avg_wind_speed = mean(wind)) %>%
   arrange(year) %>% 
   ggplot(aes(x = year, y = avg_wind_speed)) + geom_line() + theme_bw()
 
@@ -98,7 +98,7 @@ storms %>%
 storms %>%
   filter(status == 'hurricane') %>% 
   group_by(year) %>% 
-  summarize(avg_wind_speed = mean(wind),
+  summarise(avg_wind_speed = mean(wind),
             sd_wind_speed = sd(wind)) %>%
   arrange(year)
 
@@ -107,7 +107,7 @@ storms %>%
 storms %>%
   filter(status == 'hurricane') %>% 
   group_by(year) %>% 
-  summarize(avg_wind_speed = mean(wind),
+  summarise(avg_wind_speed = mean(wind),
             sd_wind_speed = sd(wind)) %>%
   ggplot(aes(x = year, y = avg_wind_speed)) + 
   geom_line(alpha = 0.3) + geom_point() + 
@@ -239,7 +239,7 @@ storms %>%
 storms %>%
   filter(status == 'hurricane') %>%
   select(wind) %>%
-  summarize(mean = mean(wind),
+  summarise(mean = mean(wind),
             sd = sd(wind),
             median = median(wind),
             mad = mad(wind))

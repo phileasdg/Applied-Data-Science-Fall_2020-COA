@@ -177,7 +177,7 @@ diamonds %>%
 
 diamonds %>% 
   group_by(cut) %>%
-  summarize(pricesum = sum(price)) %>% 
+  summarise(pricesum = sum(price)) %>% 
   ggplot() + 
   geom_bar(aes(x = cut, y = pricesum), stat = "identity") + 
   theme_bw()

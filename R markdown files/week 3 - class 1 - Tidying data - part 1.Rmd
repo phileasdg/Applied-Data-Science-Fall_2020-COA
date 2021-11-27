@@ -202,7 +202,7 @@ nyc_noise_complaints %>%
 
 nyc_noise_complaints %>%
   mutate(interval = closed_date - created_date) %>%
-  summarize(avg_duration = mean(interval))
+  summarise(avg_duration = mean(interval))
 
 # HUH. We got an NA! I wonder why that is...
 ?mean
@@ -212,7 +212,7 @@ mean(c(1, 2, NA, 4, 5), na.rm = TRUE) # gets a mean and ignore NA values
 
 nyc_noise_complaints %>%
   mutate(interval = closed_date - created_date) %>%
-  summarize(avg_duration = mean(interval, na.rm = T))
+  summarise(avg_duration = mean(interval, na.rm = T))
 
 # HUH. STILL WEIRD. LET'S SEE WHERE THESE NEGATIVES ARE STROLLING IN FROM. 
 
@@ -225,7 +225,7 @@ nyc_noise_complaints %>%
 nyc_noise_complaints %>%
   mutate(interval = closed_date - created_date) %>%
   filter(interval > 0) %>%
-  summarize(avg_duration = mean(interval, na.rm = T))
+  summarise(avg_duration = mean(interval, na.rm = T))
 
 ?summarize
 
@@ -234,7 +234,7 @@ nyc_noise_complaints %>%
 nyc_noise_complaints %>%
   mutate(interval = closed_date - created_date) %>%
   filter(interval > 0) %>%
-  summarize(avg_interval = mean(interval, na.rm = T),
+  summarise(avg_interval = mean(interval, na.rm = T),
             median_interval = median(interval, na.rm = T))
 ```
 
@@ -253,7 +253,7 @@ nyc_noise_complaints %>%
 
 nyc_noise_complaints %>%
   group_by(borough) %>% 
-  summarize(count = n())
+  summarise(count = n())
 
 # n() is just a nice easy function that counts for you! 
 
@@ -262,7 +262,7 @@ nyc_noise_complaints %>%
 nyc_noise_complaints %>% 
   filter(city == 'BROOKLYN') %>%
   group_by(location_type) %>%
-  summarize(count = n()) %>%
+  summarise(count = n()) %>%
   arrange(desc(count))
 ```
 

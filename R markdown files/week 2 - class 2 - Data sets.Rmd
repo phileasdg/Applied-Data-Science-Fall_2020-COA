@@ -194,7 +194,7 @@ prop_conifer_and_clouds = length(conifer_and_clouds$EPISODE) / length(bob_ross_d
 library(readxl)
 # install.packages("readxl")
 
-climate_change_data <- readxl::read_xls("C:/Users/pdazeley-gaist23/Desktop/Applied-Data-Science-Fall_2020-COA/Data/climate_change_download_0.xls")
+climate_change_data <- readxl::read_xls("/Users/phileasdazeleygaist/Desktop/Applied-Data-Science-Fall_2020-COA/Data/climate_change_download_0.xls")
 
 climate_change_data
 

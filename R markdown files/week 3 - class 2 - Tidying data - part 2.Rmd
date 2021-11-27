@@ -81,7 +81,7 @@ relig_income %>%
   pivot_longer(!religion, names_to = 'income', values_to = 'count') %>% 
   filter(religion != 'Catholic' & religion %in% c('Agnostic','Atheist'),
          income %in% c('$75-100k','$100-150k')) %>%
-  summarize(count = sum(count))
+  summarise(count = sum(count))
 ```
 
 ```{r}

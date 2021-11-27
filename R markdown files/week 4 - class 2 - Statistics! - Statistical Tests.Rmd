@@ -93,7 +93,7 @@ metal_cleaned %>% nrow()
 metal_cleaned %>%
   filter(origin == c('Denmark', 'Sweden')) %>% 
   group_by(origin) %>%
-  summarize(avg_fans = mean(fans))
+  summarise(avg_fans = mean(fans))
 
 # Is this difference in averages statistically significant? 
 
@@ -148,7 +148,7 @@ metal_cleaned %>%
 
 # Let's get that NYC party data again...
 
-party <- read_csv("./data/party_in_nyc.csv")
+party <- read_csv("/Users/phileasdazeleygaist/Desktop/Applied-Data-Science-Fall_2020-COA/Data/party_in_nyc.csv")
 
 
 # Let's try to answer a question - is the proportion of calls in manhattan against store/commercial location types
@@ -161,7 +161,7 @@ cleaned_party <- party %>%
   mutate(location_type = `Location Type`) %>%
   filter(location_type == c("Residential Building/House",'Store/Commercial')) %>% 
   group_by(location_type) %>% 
-  summarize(count = n()) %>% 
+  summarise(count = n()) %>% 
   mutate(total = sum(count))
 
 prop.test(x = cleaned_party$count, n = cleaned_party$total, correct = FALSE, conf.level = .9)

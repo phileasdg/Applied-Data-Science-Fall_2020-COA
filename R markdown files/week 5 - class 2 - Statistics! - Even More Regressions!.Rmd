@@ -80,7 +80,7 @@ anova(complex_model, complex_model)
 # We're going to get a little macabre - let' see if we can predict 
 # which passengers lived (or died) on the titanic with a logistic regression! 
 
-titanic <- read.csv("C:/Users/pdazeley-gaist23/Desktop/Applied-Data-Science-Fall_2020-COA/Data/phpMYEkMl.csv")
+titanic <- read.csv("/Users/phileasdazeleygaist/Desktop/Applied-Data-Science-Fall_2020-COA/Data/phpMYEkMl.csv")
 
 titanic %>% 
   select(sex) %>% 
